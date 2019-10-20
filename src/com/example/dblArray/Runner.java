@@ -12,20 +12,17 @@ public class Runner {
                     "количество строк и столбцов >2");
             verticalSize = in.nextInt();
             horizontalSize = in.nextInt();
-            if (verticalSize < 3 || horizontalSize < 3)
-                throw new MyDblArrayException("неверно указаны размеры массива!");
             MyDblArray a = new MyDblArray(verticalSize, horizontalSize);
             a.randomMyDblArray();
-            System.out.println("Исходный массив:");
-            System.out.println(a.toString());
+            System.out.println(String.format("Исходный массив:%n") + a.toString());
             a.sortingMyDblArray();
-           // a.sortingMyDblArrayWithArrays();
+            // a.sortingMyDblArrayWithArrays();
             System.out.println("Отсортированный массив:");
             System.out.println(a.toString());
-        } catch (MyDblArrayException e) {
-            System.out.println(e.getMessage());
         } catch (InputMismatchException e) {
             System.out.println("введено не целое число!");
+        } catch (NullPointerException e) {
+            System.out.println("массив не создан!");
         }
 
 

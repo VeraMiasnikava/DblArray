@@ -1,78 +1,84 @@
 package com.example.dblArray;
 
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Scanner;
 
-public class MyDblArray {
+class MyDblArray {
     private int[][] a;
     private int horizontalSize;
     private int verticalSize;
     private Random random = new Random();
 
     MyDblArray(int verticalSize, int horizontalSize) {
-        //конструктор
-        this.horizontalSize = horizontalSize;
-        this.verticalSize = verticalSize;
-        a = new int[verticalSize][horizontalSize];
+        try {
+            this.horizontalSize = horizontalSize;
+            this.verticalSize = verticalSize;
+            if (horizontalSize < 3 || verticalSize < 3) {
+                throw new InvalidArraySizeException("неверно указаны размеры массива!");
+            }
+            a = new int[verticalSize][horizontalSize];
+        } catch (InvalidArraySizeException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     void randomMyDblArray() {
-        //заполнение массива
         for (int i = 0; i < verticalSize; i++)
             for (int j = 0; j < horizontalSize; j++) {
                 a[i][j] = random.nextInt(100);
             }
     }
 
+
     void sortingMyDblArray() {
-        /*сортировка двумерного массива без использования
-        дополнительных массивов и методов класса Arrays*/
-        int k, t = 0, c = 0, p = 0, temp;
-        while (c < verticalSize * horizontalSize - 1) {
-            k = c / horizontalSize;
-            if (t == horizontalSize) {
-                t = 0;
+        /**
+         * сортировка двумерного массива без использования
+         *дополнительных массивов и методов класса Arrays
+         */
+        int lineNumber, columnNumber = 0, elementNumber = 0, columnStart, temp;
+        while (elementNumber < verticalSize * horizontalSize - 1) {
+            lineNumber = elementNumber / horizontalSize;
+            if (columnNumber == horizontalSize) {
+                columnNumber = 0;
             }
-            for (int i = k; i < verticalSize; i++) {
-                if (i == k) {
-                    p = c % horizontalSize + 1;
+            for (int i = lineNumber; i < verticalSize; i++) {
+                if (i == lineNumber) {
+                    columnStart = elementNumber % horizontalSize + 1;
                 } else {
-                    p = 0;
+                    columnStart = 0;
                 }
-                for (int j = p; j < horizontalSize; j++, p++) {
-                    if (a[k][t] < a[i][j]) {
+                for (int j = columnStart; j < horizontalSize; j++, columnStart++) {
+                    if (a[lineNumber][columnNumber] < a[i][j]) {
                         temp = a[i][j];
-                        a[i][j] = a[k][t];
-                        a[k][t] = temp;
+                        a[i][j] = a[lineNumber][columnNumber];
+                        a[lineNumber][columnNumber] = temp;
                     }
                 }
             }
-            c++;
-            t++;
+            elementNumber++;
+            columnNumber++;
         }
     }
 
     void sortingMyDblArrayWithArrays() {
-        //сортировка массива с использованием метода
-        //класса Arrays
         int[] array = new int[verticalSize * horizontalSize];
-        int t = 0;
+        int index = 0;
         for (int[] temp : a)
             for (int element : temp) {
-                array[t++] = element;
+                array[index++] = element;
             }
         Arrays.sort(array);
-        t = 0;
+        index = 0;
         for (int i = 0; i < verticalSize; i++)
             for (int j = 0; j < horizontalSize; j++) {
-                a[i][j] = array[t++];
+                a[i][j] = array[index++];
             }
     }
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("");
+        StringBuilder s = new StringBuilder();
         for (int array[] : a) {
             for (int element : array) {
                 s.append(String.format("%4d", element));
@@ -81,5 +87,6 @@ public class MyDblArray {
         }
         return s.toString();
     }
+
 
 }
