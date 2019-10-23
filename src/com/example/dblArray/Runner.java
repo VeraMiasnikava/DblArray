@@ -14,15 +14,14 @@ public class Runner {
             horizontalSize = in.nextInt();
             MyDblArray a = new MyDblArray(verticalSize, horizontalSize);
             a.randomMyDblArray();
-            System.out.println(String.format("Исходный массив:%n") + a.toString());
+            System.out.println(String.format("Исходный массив:%n%s", a));
             a.sortingMyDblArray();
             // a.sortingMyDblArrayWithArrays();
-            System.out.println("Отсортированный массив:");
-            System.out.println(a.toString());
+            System.out.println(String.format("Отсортированный массив:%n%s", a));
         } catch (InputMismatchException e) {
             System.out.println("введено не целое число!");
-        } catch (NullPointerException e) {
-            System.out.println("массив не создан!");
+        } catch (InvalidArraySizeException e) {
+            System.out.println(e.getMessage());
         }
 
 

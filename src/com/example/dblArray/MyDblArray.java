@@ -10,17 +10,13 @@ class MyDblArray {
     private int verticalSize;
     private Random random = new Random();
 
-    MyDblArray(int verticalSize, int horizontalSize) {
-        try {
-            this.horizontalSize = horizontalSize;
-            this.verticalSize = verticalSize;
-            if (horizontalSize < 3 || verticalSize < 3) {
-                throw new InvalidArraySizeException("неверно указаны размеры массива!");
-            }
-            a = new int[verticalSize][horizontalSize];
-        } catch (InvalidArraySizeException e) {
-            System.out.println(e.getMessage());
+    MyDblArray(int verticalSize, int horizontalSize) throws InvalidArraySizeException {
+        this.horizontalSize = horizontalSize;
+        this.verticalSize = verticalSize;
+        if (horizontalSize < 3 || verticalSize < 3) {
+            throw new InvalidArraySizeException("неверно указаны размеры массива!");
         }
+        a = new int[verticalSize][horizontalSize];
     }
 
     void randomMyDblArray() {
@@ -30,12 +26,14 @@ class MyDblArray {
             }
     }
 
-
+    /**
+     * сортировка двумерного массива без использования
+     * дополнительных массивов и методов класса Arrays
+     *
+     * @return void
+     * @autor Vera Miasnikova
+     */
     void sortingMyDblArray() {
-        /**
-         * сортировка двумерного массива без использования
-         *дополнительных массивов и методов класса Arrays
-         */
         int lineNumber, columnNumber = 0, elementNumber = 0, columnStart, temp;
         while (elementNumber < verticalSize * horizontalSize - 1) {
             lineNumber = elementNumber / horizontalSize;
